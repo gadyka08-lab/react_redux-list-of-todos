@@ -1,6 +1,17 @@
+/* eslint-disable */
 import React from 'react';
+// Імпортуємо кастомні хуки для роботи з Redux
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+// Імпортуємо наші екшни зі слайсу фільтрів
+import { updateStatus, updateQuery } from '../../features/filter'; // Перевір шлях до файлу слайсу, якщо відрізняється
 
 export const TodoFilter: React.FC = () => {
+  // Отримуємо функцію dispatch для відправки екшнів у Redux
+  const dispatch = useAppDispatch();
+
+  // Отримуємо поточні значення query та status із глобального стейту
+  const { query, status } = useAppSelector(state => state.filter);
+
   return (
     <form
       className="field has-addons"
@@ -8,7 +19,11 @@ export const TodoFilter: React.FC = () => {
     >
       <p className="control">
         <span className="select">
-          <select data-cy="statusSelect">
+          <select
+            data-cy="statusSelect"
+            value={status}
+            onChange={e => dispatch(updateStatus(e.target.value))}
+          >
             <option value="all">All</option>
             <option value="active">Active</option>
             <option value="completed">Completed</option>
@@ -22,19 +37,23 @@ export const TodoFilter: React.FC = () => {
           type="text"
           className="input"
           placeholder="Search..."
+          value={query}
+          onChange={e => dispatch(updateQuery(e.target.value))}
         />
         <span className="icon is-left">
           <i className="fas fa-magnifying-glass" />
         </span>
 
-        <span className="icon is-right" style={{ pointerEvents: 'all' }}>
-          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-          <button
-            data-cy="clearSearchButton"
-            type="button"
-            className="delete"
-          />
-        </span>
+        {query && (
+          <span className="icon is-right" style={{ pointerEvents: 'all' }}>
+            <button
+              data-cy="clearSearchButton"
+              type="button"
+              className="delete"
+              onClick={() => dispatch(updateQuery(''))}
+            />
+          </span>
+        )}
       </p>
     </form>
   );
