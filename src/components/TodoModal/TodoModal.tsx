@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import { Loader } from '../Loader';
 import { useAppSelector } from '../../app/hooks';
@@ -12,6 +11,8 @@ interface Props {
 export const TodoModal: React.FC<Props> = ({ onClose }) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [errorMessage, setErrorMessage] = useState('');
 
   const currentTodo = useAppSelector(state => state.currentTodo);
 
@@ -20,8 +21,6 @@ export const TodoModal: React.FC<Props> = ({ onClose }) => {
       return;
     }
 
-    console.log('Current userId:', currentTodo.userId);
-
     setLoading(true);
 
     getUser(currentTodo.userId)
@@ -29,6 +28,7 @@ export const TodoModal: React.FC<Props> = ({ onClose }) => {
         setUser(fetchedUser);
       })
       .catch(() => {
+        setErrorMessage('Failed to load user details');
       })
       .finally(() => {
         setLoading(false);

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Todo } from '../../types/Todo';
@@ -16,9 +15,7 @@ export const TodoList: React.FC = () => {
       (status === 'active' && !todo.completed) ||
       (status === 'completed' && todo.completed);
 
-    const matchesQuery = todo.title
-      .toLowerCase()
-      .includes(query.toLowerCase());
+    const matchesQuery = todo.title.toLowerCase().includes(query.toLowerCase());
 
     return matchesStatus && matchesQuery;
   });
@@ -52,35 +49,41 @@ export const TodoList: React.FC = () => {
             const isSelected = currentTodo?.id === todo.id;
 
             return (
-            <tr key={todo.id} data-cy="todo">
-              <td className="is-vcentered">{todo.id}</td>
-              <td className="is-vcentered">
-                {todo.completed && (
-                  <span className="icon" data-cy="iconCompleted">
-                    <i className="fas fa-check" />
-                  </span>
-                )}
-              </td>
+              <tr key={todo.id} data-cy="todo">
+                <td className="is-vcentered">{todo.id}</td>
+                <td className="is-vcentered">
+                  {todo.completed && (
+                    <span className="icon" data-cy="iconCompleted">
+                      <i className="fas fa-check" />
+                    </span>
+                  )}
+                </td>
 
-              <td className="is-vcentered is-expanded">
-                <p className={todo.completed ? 'has-text-success' : 'has-text-danger'}>
-                  {todo.title}
-                </p>
-              </td>
+                <td className="is-vcentered is-expanded">
+                  <p
+                    className={
+                      todo.completed ? 'has-text-success' : 'has-text-danger'
+                    }
+                  >
+                    {todo.title}
+                  </p>
+                </td>
 
-              <td className="has-text-right is-vcentered">
-                <button
-                  data-cy="selectButton"
-                  className="button"
-                  type="button"
-                  onClick={() => dispatch(setCurrentTodo(todo))}
-                >
-                  <span className="icon">
-                    <i className={`far ${isSelected ? 'fa-eye-slash' : 'fa-eye'}`} />
-                  </span>
-                </button>
-              </td>
-            </tr>
+                <td className="has-text-right is-vcentered">
+                  <button
+                    data-cy="selectButton"
+                    className="button"
+                    type="button"
+                    onClick={() => dispatch(setCurrentTodo(todo))}
+                  >
+                    <span className="icon">
+                      <i
+                        className={`far ${isSelected ? 'fa-eye-slash' : 'fa-eye'}`}
+                      />
+                    </span>
+                  </button>
+                </td>
+              </tr>
             );
           })}
         </tbody>

@@ -1,15 +1,10 @@
-/* eslint-disable */
 import React from 'react';
-// Імпортуємо кастомні хуки для роботи з Redux
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-// Імпортуємо наші екшни зі слайсу фільтрів
 import { updateStatus, updateQuery } from '../../features/filter'; // Перевір шлях до файлу слайсу, якщо відрізняється
 
 export const TodoFilter: React.FC = () => {
-  // Отримуємо функцію dispatch для відправки екшнів у Redux
   const dispatch = useAppDispatch();
 
-  // Отримуємо поточні значення query та status із глобального стейту
   const { query, status } = useAppSelector(state => state.filter);
 
   return (
